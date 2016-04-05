@@ -26,4 +26,9 @@ class Rack::Tracker::Handler
   def self.track(name, event)
     raise NotImplementedError.new("class method `#{__callee__}` is not implemented.")
   end
+
+  def ignore?
+    return false unless options.include?(:ignore)
+    options[:ignore].respond_to?(:call) ? options[:ignore].call(env) : options[:ignore]
+  end
 end
